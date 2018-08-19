@@ -33,10 +33,8 @@ let controller = {
 		model.activeCat = cat;
 	},
 
-	// add cats to the list and images according to
-	// the amount of cats stored in images/. Just be sure
-	// to name the images correctly using the following guide:
-	// cat_picture(number).jpg
+	// add cats to the list and images according to the amount of cats stored in images/. 
+	// Just be sure to name the images correctly using the following guide: 'cat_picture(number).jpg'
 	addCats: function (numberOfCats) {
 		// clear cat list
 		model.cats = [];
@@ -45,7 +43,7 @@ let controller = {
 		for (var i = 1; i < numberOfCats+1; i++) {	
 			model.cats.push({
 				clickCount: 0,
-				name: 'Cat'+[i],
+				name: 'Cat '+[i],
 				imgSrc: 'images/cat_picture'+[i]+'.jpeg'
 			});
 		}
@@ -99,31 +97,25 @@ let listView = {
 		for (let cat of this.cats) {
 			// create and modify <li> items for the cats' list
 			this.catListElement = document.createElement('li');
-			this.catListElement.innerHTML = `See ${cat.name}`;
+			this.catListElement.innerHTML = cat.name;
 			
 			// click on list and change Cat
-			// this.catListElement.addEventListener('click', (function (localCat) {
-			// 	// change the value of the current Cat
-			// 	return function () {
-			// 		controller.changeCat(localCat);
-			// 		catView.render();
-			// 	}
-			// })(cat));
-
-			this.catListElement.addEventListener('click', function (localCat) {
+			// this is done through an IIFE, we pass the inmediat value of cat into an inner scope, in the form of a 
+			// new variable called 'instantCopyOfcat'. Now it doesn't matter if cat changes, the value we need is already
+			// stored in instantCopyOfCat
+			this.catListElement.addEventListener('click', (function (instantCopyOfCat) {
 				// change the value of the current Cat
 				return function () {
-					controller.changeCat(localCat);
+					controller.changeCat(instantCopyOfCat);
 					catView.render();
 				}
-			});
+			})(cat));
 
 			// add each <li> item to the DOM
 			this.catList.appendChild(this.catListElement);
 		}
 	}
 };
-
 
 
 controller.init();

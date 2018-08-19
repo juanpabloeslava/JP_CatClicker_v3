@@ -33,6 +33,15 @@ let controller = {
 		model.activeCat = cat;
 	},
 
+	addCatCounter: function (cat) {
+		// add to the counter
+		model.activeCat.clickCount++;
+		// render again
+		catView.render();
+		
+		// model.activeCat.clickCount = catClickCount;
+	},
+
 	// add cats to the list and images according to the amount of cats stored in images/. 
 	// Just be sure to name the images correctly using the following guide: 'cat_picture(number).jpg'
 	addCats: function (numberOfCats) {
@@ -61,7 +70,11 @@ let catView = {
 		this.catImg = document.getElementById('cat-img');
 		// this.cats = controller.getAllCats();
 		
-		// render for the first time
+		// add an event listener to the counter
+		this.catImg.addEventListener('click', function () {
+			controller.addCatCounter();
+		});
+		// render the whole thing
 		this.render();
 	},
 

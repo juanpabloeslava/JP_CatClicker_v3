@@ -10,7 +10,8 @@ let controller = {
 	// 
 	init: function () {
 		// add 5 cats to model.cats array
-		this.addCats(5);
+		let desiredCats = 5;
+		this.addCats(desiredCats);
 
 		// set the active Cat view
 		model.activeCat = model.cats[0];
@@ -18,6 +19,9 @@ let controller = {
 		// make the list
 		listView.init();
 		catView.init();
+
+		// temporal for admin
+		adminView.init();
 	}, 
 
 	getActiveCat: function () {
@@ -57,37 +61,11 @@ let controller = {
 			});
 		}
 	}
+
+
 };
 
 /* ======= VIEW ========== */
-let catView = {
-
-	init: function () {
-		// set DOM variables
-		this.catView = document.getElementById('cat-view');
-		this.catName = document.getElementById('cat-name');
-		this.catCounter = document.getElementById('cat-count');
-		this.catImg = document.getElementById('cat-img');
-		// this.cats = controller.getAllCats();
-		
-		// add an event listener to the counter
-		this.catImg.addEventListener('click', function () {
-			controller.addCatCounter();
-		});
-		// render the whole thing
-		this.render();
-	},
-
-	render: function () {
-		// set the active cat to display name and image
-		let showCat = controller.getActiveCat();
-
-		// do things
-		this.catName.innerHTML = showCat.name;
-		this.catCounter.innerHTML = showCat.clickCount;
-		this.catImg.src = showCat.imgSrc;
-	}
-};
 
 let listView = {
 	//TO-DO: make a list with the name of the cats
@@ -129,6 +107,73 @@ let listView = {
 		}
 	}
 };
+
+let catView = {
+
+	init: function () {
+		// set DOM variables
+		this.catView = document.getElementById('cat-view');
+		this.catName = document.getElementById('cat-name');
+		this.catCounter = document.getElementById('cat-count');
+		this.catImg = document.getElementById('cat-img');
+		// this.cats = controller.getAllCats();
+		
+		// add an event listener to the counter
+		this.catImg.addEventListener('click', function () {
+			controller.addCatCounter();
+		});
+		// render the whole thing
+		this.render();
+	},
+
+	render: function () {
+		// set the active cat to display name and image
+		let showCat = controller.getActiveCat();
+
+		// do things
+		this.catName.innerHTML = showCat.name;
+		this.catCounter.innerHTML = showCat.clickCount;
+		this.catImg.src = showCat.imgSrc;
+	}
+};
+
+let adminView = {
+
+	init: function () {
+		// set DOM variables
+		this.adminBtn = document.getElementById('admin-btn');
+		this.adminForm = document.getElementById('admin-form');
+
+		let adminShow = false;
+		// show the form on admin button click
+		this.adminBtn.addEventListener('click', function () {
+			if (!adminShow) {
+				adminView.adminForm.innerHTML = `
+					<br>
+					<span>New Name:</span>
+					<input type="text" name="inputCatName" value="">
+					<br>
+					<span>New Image:</span> 
+					<input type="text" name="inputCatImg" value="">
+					<br>
+					<span>New click Count:</span>
+					<input type="text" name="inputCatCount" value="">
+					<br>	
+				`
+				adminShow = true;
+			}
+			else {
+				adminView.adminForm.innerHTML = "";
+				adminShow = false;
+			}
+		});
+
+	},
+
+	render: function () {
+
+	}
+}
 
 
 controller.init();
